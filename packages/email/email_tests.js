@@ -70,6 +70,17 @@ Tinytest.add("email - dev mode smoke test", function (test) {
 
     test.matches(stream.getContentsAsString("utf8"),
                  /^Date: .+$/m);
+
+    // Test without any headers
+    Email.send({
+      from: "foo@example.com",
+      to: "bar@example.com",
+      subject: "This is the subject",
+      text: "This is the body\nof the message\nFrom us.",
+    });
+
+    test.matches(stream.getContentsAsString("utf8"),
+                 /^Subject: This is the subject$/m);
   } finally {
     EmailTest.restoreOutputStream();
   }
